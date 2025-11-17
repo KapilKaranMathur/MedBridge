@@ -1,28 +1,9 @@
 import { NextResponse } from "next/server";
-import { jwtVerify } from "jose";
+import { PROTECTED_ROUTES, verifyJWT } from "./lib/middleware-utils";
 
-const SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
-
-const PROTECTED_ROUTES = [
-  "/onboarding",
-  "/dashboard",
-  "/appointments",
-  "/api/protected",
-];
-
-async function verifyJWT(token) {
-  try {
-    await jwtVerify(token, SECRET);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-export async function proxy(req) {
+export async function middleware(req) {
   const { pathname } = req.nextUrl;
 
-  // Only protect listed routes, not "/"
   const needsAuth = PROTECTED_ROUTES.some((route) =>
     pathname.startsWith(route)
   );

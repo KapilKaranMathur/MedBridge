@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
+/* Removed unsupported @custom-variant; define dark/custom variants in tailwind.config.js or via a PostCSS/Tailwind plugin if needed */
 
 @theme inline {
   --color-background: var(--background);
@@ -41,6 +41,24 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --animate-marquee: marquee var(--duration) infinite linear;
+  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+  @keyframes marquee {
+  from {
+    transform: translateX(0);
+    }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+    }
+  }
+  @keyframes marquee-vertical {
+  from {
+    transform: translateY(0);
+    }
+  to {
+    transform: translateY(calc(-100% - var(--gap)));
+    }
+  }
 }
 
 :root {
@@ -121,8 +139,8 @@
   }
 }
 .gradient{
-  @apply bg-gradient-to-b from-emerald-500 to-teal-400;
+  @apply bg-linear-to-b from-emerald-500 to-teal-400;
 }
 .gradient-title{
-  @apply bg-gradient-to-b from-emerald-500 to-teal-400 font-bold text-transparent bg-clip-text pb-1 pr-2
+  @apply bg-linear-to-b from-emerald-500 to-teal-400 font-bold text-transparent bg-clip-text pb-1 pr-2
 }

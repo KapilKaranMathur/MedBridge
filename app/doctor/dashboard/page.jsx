@@ -124,6 +124,26 @@ export default function DoctorDashboard() {
     }
   }
 
+  async function handleCancelAppointment(appointmentId) {
+    if (!window.confirm("Are you sure you want to cancel this appointment? This action cannot be undone.")) return;
+
+    try {
+      const res = await fetch(`/api/appointments/${appointmentId}`, {
+        method: "DELETE",
+      });
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.error || "Failed to cancel appointment");
+      }
+
+      // Remove from local state
+      setAppointments(prev => prev.filter(a => a.id !== appointmentId));
+    } catch (err) {
+      alert(err.message || "Error cancelling appointment");
+    }
+  }
+
   function handleOpenRecord(recordId) {
     if (!recordId) return;
     window.location.href = `/records/${recordId}`;
@@ -313,6 +333,14 @@ export default function DoctorDashboard() {
                              {busyCreate === a.id ? "Starting..." : "Start Consultation"} 
                           </Button>
                         )}
+                        
+                        <Button
+                          variant="outline"
+                          className="flex-1 md:flex-none border-red-500/30 text-red-400 hover:bg-red-500/10 hover:text-red-300 hover:border-red-500/50"
+                          onClick={() => handleCancelAppointment(a.id)}
+                        >
+                          {a.medicalRecordId ? "Delete" : "Cancel"}
+                        </Button>
                         
                         <Button
                           variant="ghost"

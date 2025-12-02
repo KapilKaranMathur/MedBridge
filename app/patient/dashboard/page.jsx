@@ -30,6 +30,26 @@ export default function PatientDashboard() {
     }
   }
 
+  async function handleCancelAppointment(appointmentId) {
+    if (!window.confirm("Are you sure you want to cancel this appointment?")) return;
+
+    try {
+      const res = await fetch(`/api/appointments/${appointmentId}`, {
+        method: "DELETE",
+      });
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.error || "Failed to cancel appointment");
+      }
+
+      // Remove from local state
+      setAppointments(prev => prev.filter(a => a.id !== appointmentId));
+    } catch (err) {
+      alert(err.message || "Error cancelling appointment");
+    }
+  }
+
   return (
     <div className="min-h-screen bg-background pb-20 pt-20 md:pt-24 relative overflow-hidden">
       {/* Background Effects */}
@@ -112,11 +132,21 @@ export default function PatientDashboard() {
                       </div>
                     </div>
 
-                    {a.medicalRecordId && (
-                      <Button variant="outline" className="border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10" asChild>
-                        <Link href={`/records/${a.medicalRecordId}`}>View Record</Link>
+                    <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+                      {a.medicalRecordId ? (
+                        <Button variant="outline" className="flex-1 md:flex-none border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10" asChild>
+                          <Link href={`/records/${a.medicalRecordId}`}>View Record</Link>
+                        </Button>
+                      ) : null}
+                      
+                      <Button 
+                        variant="outline" 
+                        className="flex-1 md:flex-none border-red-500/30 text-red-400 hover:bg-red-500/10 hover:text-red-300 hover:border-red-500/50"
+                        onClick={() => handleCancelAppointment(a.id)}
+                      >
+                        {a.medicalRecordId ? "Delete" : "Cancel"}
                       </Button>
-                    )}
+                    </div>
                   </CardContent>
                 </Card>
               );

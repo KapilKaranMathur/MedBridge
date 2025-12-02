@@ -173,7 +173,7 @@ export default function RecordThread({ params }) {
     <div className="min-h-screen bg-black pb-24 pt-28 relative overflow-hidden">
       {/* Subtle Background Effects */}
 
-      <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/5 via-transparent to-transparent pointer-events-none -z-10" />
+      <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-emerald-900/5 via-transparent to-transparent pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         {/* Header Navigation */}
@@ -224,7 +224,7 @@ export default function RecordThread({ params }) {
           <div className="lg:col-span-4 space-y-6">
 
             <Card className="bg-zinc-950 border border-zinc-900 overflow-hidden">
-              <div className="h-24 bg-gradient-to-br from-emerald-900/20 to-blue-900/20" />
+              <div className="h-24 bg-linear-to-br from-emerald-900/20 to-blue-900/20" />
 
               <CardContent className="relative pt-0 px-6 pb-6">
                 <div className="absolute -top-12 left-6">

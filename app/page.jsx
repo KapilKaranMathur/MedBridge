@@ -23,16 +23,16 @@ export default async function Home() {
   const { cookies } = await import("next/headers");
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
-  
+
   let currentUser = null;
   if (token) {
-      const { verify } = await import("jsonwebtoken");
-      try {
-          const payload = verify(token, process.env.JWT_SECRET);
-          if (payload) {
-             currentUser = payload;
-          }
-      } catch (e) {}
+    const { verify } = await import("jsonwebtoken");
+    try {
+      const payload = verify(token, process.env.JWT_SECRET);
+      if (payload) {
+        currentUser = payload;
+      }
+    } catch (e) {}
   }
 
   const platformBenefits = [
@@ -66,24 +66,43 @@ export default async function Home() {
                 {currentUser ? (
                   <>
                     <div className="flex flex-col gap-3">
-                      <Badge variant="outline" className="w-fit border-emerald-500 text-emerald-400 py-1.5">
-                        Logged in as {currentUser.role === "doctor" ? "Doctor" : "Patient"}
+                      <Badge
+                        variant="outline"
+                        className="w-fit border-emerald-500 text-emerald-400 py-1.5"
+                      >
+                        Logged in as{" "}
+                        {currentUser.role === "doctor" ? "Doctor" : "Patient"}
                       </Badge>
                       <div className="flex gap-4">
                         {currentUser.role === "doctor" ? (
-                          <Button asChild size="lg" className="bg-emerald-600 text-white hover:bg-emerald-700">
+                          <Button
+                            asChild
+                            size="lg"
+                            className="bg-emerald-600 text-white hover:bg-emerald-700"
+                          >
                             <Link href="/doctor/dashboard">
-                              Go to Dashboard <ArrowRight className="ml-2 h-4 w-4" />
+                              Go to Dashboard{" "}
+                              <ArrowRight className="ml-2 h-4 w-4" />
                             </Link>
                           </Button>
                         ) : (
                           <>
-                            <Button asChild size="lg" className="bg-emerald-600 text-white hover:bg-emerald-700">
+                            <Button
+                              asChild
+                              size="lg"
+                              className="bg-emerald-600 text-white hover:bg-emerald-700"
+                            >
                               <Link href="/patient/doctors">
-                                Find Doctors <ArrowRight className="ml-2 h-4 w-4" />
+                                Find Doctors{" "}
+                                <ArrowRight className="ml-2 h-4 w-4" />
                               </Link>
                             </Button>
-                            <Button asChild size="lg" variant="outline" className="border-emerald-700/30 hover:bg-muted/80">
+                            <Button
+                              asChild
+                              size="lg"
+                              variant="outline"
+                              className="border-emerald-700/30 hover:bg-muted/80"
+                            >
                               <Link href="/patient/dashboard">
                                 My Appointments
                               </Link>
@@ -232,8 +251,7 @@ export default async function Home() {
                   healthcare the way it should be - easy, accessible, and
                   personalized.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4">
-                </div>
+                <div className="flex flex-col sm:flex-row gap-4"></div>
               </div>
             </CardContent>
           </Card>

@@ -123,7 +123,7 @@ export default function Header() {
                         {user.name?.charAt(0).toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
-                    <div className="flex flex-col items-start text-xs hidden sm:flex">
+                    <div className="flex flex-col items-start text-xs sm:flex">
                         <span className="font-medium text-zinc-200 text-sm">{user.name?.split(' ')[0]}</span>
                         <span className="text-[10px] text-zinc-500 uppercase tracking-wide">{user.role === 'doctor' ? 'Doctor' : 'Patient'}</span>
                     </div>
@@ -139,7 +139,7 @@ export default function Header() {
                      <div className="flex flex-col space-y-0.5">
                         <p className="text-sm font-medium text-white">{user.name}</p>
                         <p className="text-[10px] text-zinc-500 truncate max-w-[140px]">{user.email}</p>
-                        <Badge variant="outline" className="w-fit border-emerald-800 bg-emerald-950 text-emerald-400 text-[10px] h-4 px-1 rounded-[4px] mt-1">
+                        <Badge variant="outline" className="w-fit border-emerald-800 bg-emerald-950 text-emerald-400 text-[10px] h-4 px-1 rounded-lg mt-1">
                           {user.role === "doctor" ? "Medical Staff" : "Patient Account"}
                         </Badge>
                      </div>

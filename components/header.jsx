@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,6 +18,7 @@ import { LayoutDashboard, Settings, LogOut, User } from "lucide-react";
 
 export default function Header() {
   const router = useRouter();
+  const pathname = usePathname();
   const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
@@ -56,8 +57,14 @@ export default function Header() {
   const dashboardLink = user?.role === "doctor" ? "/doctor/dashboard" : "/patient/dashboard";
   const settingsLink = user?.role === "doctor" ? "/doctor/settings" : "/patient/settings";
 
+  const isAuthPage = pathname === "/sign-in" || pathname === "/sign-up";
+
   return (
-    <header className="fixed top-0 w-full border-b bg-background/80 backdrop-blur-md z-10 supports-backdrop-filter:bg-background/60 py-2">
+    <header className={`fixed top-0 w-full border-b z-10 py-2 transition-colors duration-300 ${
+      isAuthPage 
+        ? "bg-transparent border-transparent backdrop-blur-none" 
+        : "bg-background/80 backdrop-blur-md supports-backdrop-filter:bg-background/60"
+    }`}>
       <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link href="/" className="font-semibold text-3xl">
           MedBridge

@@ -128,7 +128,7 @@ export default function PatientSettingsPage() {
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 pt-32 pb-12 font-sans selection:bg-emerald-500/30">
       <div className="container mx-auto px-4 max-w-6xl">
-        <div className="mb-12 flex items-center justify-between">
+        <div className="mb-6 flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-white tracking-tight flex items-center gap-3">
               <Settings className="h-8 w-8 text-zinc-400" />

@@ -17,7 +17,7 @@ import {
   Stethoscope,
   GraduationCap,
   Building2,
-  Wallet,
+  // Wallet, // Removed pricing icon
   Calendar,
   Baby,
   Users,
@@ -45,7 +45,7 @@ export default function SignUpPage() {
   const [qualification, setQualification] = useState("");
   const [experienceYears, setExperienceYears] = useState("");
   const [city, setCity] = useState("");
-  const [consultationFee, setConsultationFee] = useState("");
+  // const [consultationFee, setConsultationFee] = useState(""); // Removed pricing
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
 
@@ -65,7 +65,7 @@ export default function SignUpPage() {
       payload.qualification = qualification;
       payload.experienceYears = Number(experienceYears);
       payload.city = city;
-      payload.consultationFee = Number(consultationFee);
+      // payload.consultationFee = Number(consultationFee); // Removed pricing
     }
 
     if (role === "patient") {
@@ -94,7 +94,7 @@ export default function SignUpPage() {
   }
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center p-4 relative bg-black overflow-hidden">
+    <div className="min-h-screen w-full flex items-center justify-center p-4 pt-20 relative bg-black overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-full bg-linear-to-br from-black via-black to-black -z-20" />
       <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] bg-emerald-800/10 rounded-full blur-[120px] pointer-events-none -z-10" />
 

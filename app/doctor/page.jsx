@@ -46,7 +46,6 @@ export default function DoctorDashboard() {
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-8">
-      {/* Doctor Profile */}
       <Card className="shadow">
         <CardHeader>
           <CardTitle className="text-xl">Doctor Dashboard</CardTitle>
@@ -63,7 +62,6 @@ export default function DoctorDashboard() {
         </CardContent>
       </Card>
 
-      {/* Upcoming Appointments */}
       <Card className="shadow">
         <CardHeader>
           <CardTitle className="text-lg">Upcoming Appointments</CardTitle>

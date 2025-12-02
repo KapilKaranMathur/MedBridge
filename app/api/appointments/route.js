@@ -6,13 +6,8 @@ import { getCurrentUser } from "@/lib/auth";
 export async function GET(request) {
   try {
     const user = await getCurrentUser(request);
-    if (!user || user.role !== "doctor") {
+    if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const doctor = await prisma.doctor.findUnique({ where: { userId: user.id } });
-    if (!doctor) {
-      return NextResponse.json({ error: "Doctor profile not found" }, { status: 404 });
     }
 
     const url = new URL(request.url);
@@ -21,12 +16,29 @@ export async function GET(request) {
     const search = (url.searchParams.get("search") || "").trim();
     const skip = (page - 1) * pageSize;
 
-    const where = { doctorId: doctor.id };
-    if (search) {
-      where.OR = [
-        { notes: { contains: search, mode: "insensitive" } },
-        { user: { name: { contains: search, mode: "insensitive" } } },
-      ];
+    let where = {};
+
+    if (user.role === "doctor") {
+      const doctor = await prisma.doctor.findUnique({ where: { userId: user.id } });
+      if (!doctor) {
+        return NextResponse.json({ error: "Doctor profile not found" }, { status: 404 });
+      }
+      where.doctorId = doctor.id;
+      if (search) {
+        where.OR = [
+          { notes: { contains: search, mode: "insensitive" } },
+          { user: { name: { contains: search, mode: "insensitive" } } },
+        ];
+      }
+    } else {
+      // Patient or regular user
+      where.userId = user.id;
+      if (search) {
+        where.OR = [
+          { notes: { contains: search, mode: "insensitive" } },
+          { doctor: { name: { contains: search, mode: "insensitive" } } },
+        ];
+      }
     }
 
     const [appointments, totalCount] = await Promise.all([
@@ -34,6 +46,7 @@ export async function GET(request) {
         where,
         include: {
           user: { select: { id: true, name: true, email: true } },
+          doctor: { select: { id: true, name: true, specialization: true } },
           medicalRecord: { select: { id: true } },
         },
         orderBy: { dateTime: "asc" },
@@ -49,6 +62,7 @@ export async function GET(request) {
       status: a.status,
       notes: a.notes,
       user: a.user ? { id: a.user.id, name: a.user.name, email: a.user.email } : null,
+      doctor: a.doctor ? { id: a.doctor.id, name: a.doctor.name, specialization: a.doctor.specialization } : null,
       medicalRecordId: a.medicalRecord ? a.medicalRecord.id : null,
     }));
 
@@ -63,6 +77,37 @@ export async function GET(request) {
     });
   } catch (err) {
     console.error("GET /api/doctor/appointments error:", err);
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
+  }
+}
+
+export async function POST(request) {
+  try {
+    const user = await getCurrentUser(request);
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const body = await request.json();
+    const { doctorId, dateTime, notes } = body;
+
+    if (!doctorId || !dateTime) {
+      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    }
+
+    const appointment = await prisma.appointment.create({
+      data: {
+        userId: user.id,
+        doctorId: parseInt(doctorId),
+        dateTime: new Date(dateTime),
+        status: "Scheduled",
+        notes: notes || "",
+      },
+    });
+
+    return NextResponse.json(appointment, { status: 201 });
+  } catch (err) {
+    console.error("POST /api/appointments error:", err);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

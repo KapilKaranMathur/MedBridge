@@ -16,8 +16,25 @@ import {
 import { Marquee } from "../components/ui/marquee";
 import MarqueeDemo from "../components/MarqueeDemo";
 
-export default function Home() {
-  // New local benefits list (non-pricing) to replace "Consultation Packages" section
+import { getCurrentUser } from "@/lib/auth";
+import { headers } from "next/headers";
+
+export default async function Home() {
+  const { cookies } = await import("next/headers");
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value;
+  
+  let currentUser = null;
+  if (token) {
+      const { verify } = await import("jsonwebtoken");
+      try {
+          const payload = verify(token, process.env.JWT_SECRET);
+          if (payload) {
+             currentUser = payload;
+          }
+      } catch (e) {}
+  }
+
   const platformBenefits = [
     "Secure, centralized medical records — patients and doctors access a single source of truth.",
     "Seamless teleconsultations and in-app messaging for quick follow-ups.",
@@ -46,24 +63,58 @@ export default function Home() {
                 manage your healthcare journey — all in one secure place.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button
-                  asChild
-                  size="lg"
-                  className="bg-emerald-600 text-white hover:bg-emerald-700"
-                >
-                  <Link href={"/onboarding"}>
-                    Get Started <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
+                {currentUser ? (
+                  <>
+                    <div className="flex flex-col gap-3">
+                      <Badge variant="outline" className="w-fit border-emerald-500 text-emerald-400 py-1.5">
+                        Logged in as {currentUser.role === "doctor" ? "Doctor" : "Patient"}
+                      </Badge>
+                      <div className="flex gap-4">
+                        {currentUser.role === "doctor" ? (
+                          <Button asChild size="lg" className="bg-emerald-600 text-white hover:bg-emerald-700">
+                            <Link href="/doctor/dashboard">
+                              Go to Dashboard <ArrowRight className="ml-2 h-4 w-4" />
+                            </Link>
+                          </Button>
+                        ) : (
+                          <>
+                            <Button asChild size="lg" className="bg-emerald-600 text-white hover:bg-emerald-700">
+                              <Link href="/patient/doctors">
+                                Find Doctors <ArrowRight className="ml-2 h-4 w-4" />
+                              </Link>
+                            </Button>
+                            <Button asChild size="lg" variant="outline" className="border-emerald-700/30 hover:bg-muted/80">
+                              <Link href="/patient/dashboard">
+                                My Appointments
+                              </Link>
+                            </Button>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <Button
+                      asChild
+                      size="lg"
+                      className="bg-emerald-600 text-white hover:bg-emerald-700"
+                    >
+                      <Link href={"/onboarding"}>
+                        Get Started <ArrowRight className="ml-2 h-4 w-4" />
+                      </Link>
+                    </Button>
 
-                <Button
-                  asChild
-                  size={"lg"}
-                  className={"border-emerald-700/30 hover:bg-muted/80"}
-                  variant={"outline"}
-                >
-                  <Link href="/doctors">Find Doctors</Link>
-                </Button>
+                    <Button
+                      asChild
+                      size={"lg"}
+                      className={"border-emerald-700/30 hover:bg-muted/80"}
+                      variant={"outline"}
+                    >
+                      <Link href="/patient/doctors">Find Doctors</Link>
+                    </Button>
+                  </>
+                )}
               </div>
             </div>
             <div className="relative h-[400px] lg:h-[500px] rounded-xl overflow-hidden">
@@ -118,7 +169,6 @@ export default function Home() {
 
       <hr />
 
-      {/* Replaced "Consultation Packages" / pricing section with platform services (non-pricing) */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
@@ -126,7 +176,7 @@ export default function Home() {
               Platform Services
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Tools and features that make care simpler for doctors and patients.
+              Smart digital consultations. No fees shown on platform.
             </p>
           </div>
           <div>
@@ -183,13 +233,6 @@ export default function Home() {
                   personalized.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
-                <Button
-                  size="lg"
-                  className={"bg-emerald-600 text-white hover:bg-emerald-700"}
-                  asChild
-                >
-                  <Link href="/sign-up">Sign Up Now</Link>
-                </Button>
                 </div>
               </div>
             </CardContent>

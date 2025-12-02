@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
 import { Loader2, Save, Trash2, AlertTriangle } from "lucide-react";
 import {
   AlertDialog,
@@ -19,16 +18,14 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-export default function DoctorSettingsPage() {
+export default function PatientSettingsPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
-    specialization: "",
-    qualification: "",
-    experienceYears: "",
-    city: "",
+    age: "",
+    gender: "",
   });
 
   useEffect(() => {
@@ -37,16 +34,14 @@ export default function DoctorSettingsPage() {
 
   async function fetchProfile() {
     try {
-      const res = await fetch("/api/doctor/profile");
+      const res = await fetch("/api/patient/profile");
       if (res.ok) {
         const data = await res.json();
-        if (data.doctor) {
+        if (data.patient) {
           setFormData({
-            name: data.doctor.name || "",
-            specialization: data.doctor.specialization || "",
-            qualification: data.doctor.qualification || "",
-            experienceYears: data.doctor.experienceYears || "",
-            city: data.doctor.city || "",
+            name: data.patient.name || "",
+            age: data.patient.age || "",
+            gender: data.patient.gender || "",
           });
         }
       }
@@ -61,12 +56,12 @@ export default function DoctorSettingsPage() {
     e.preventDefault();
     setSaving(true);
     try {
-      const res = await fetch("/api/doctor/profile", {
+      const res = await fetch("/api/patient/profile", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...formData,
-          experienceYears: Number(formData.experienceYears),
+          age: Number(formData.age),
         }),
       });
       if (!res.ok) throw new Error("Failed to update");
@@ -81,7 +76,7 @@ export default function DoctorSettingsPage() {
   async function handleDelete() {
     setDeleting(true);
     try {
-      const res = await fetch("/api/doctor/profile", {
+      const res = await fetch("/api/patient/profile", {
         method: "DELETE",
       });
       if (res.ok) {
@@ -109,7 +104,7 @@ export default function DoctorSettingsPage() {
         <Card className="bg-black/40 border-emerald-900/30 backdrop-blur-sm">
           <CardHeader>
             <CardTitle className="text-xl text-emerald-400">Profile Information</CardTitle>
-            <CardDescription>Update your professional details</CardDescription>
+            <CardDescription>Update your personal details</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSave} className="space-y-6">
@@ -121,44 +116,24 @@ export default function DoctorSettingsPage() {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="bg-black/20 border-white/10"
-                    disabled // Name usually not editable or handled differently, but prompt said "Must edit: name"
-                  />
-                  {/* Note: Name is on User model, Doctor model has name too. API updates Doctor name. */}
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="specialization">Specialization</Label>
-                  <Input
-                    id="specialization"
-                    value={formData.specialization}
-                    onChange={(e) => setFormData({ ...formData, specialization: e.target.value })}
-                    className="bg-black/20 border-white/10"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="qualification">Qualification</Label>
+                  <Label htmlFor="age">Age</Label>
                   <Input
-                    id="qualification"
-                    value={formData.qualification}
-                    onChange={(e) => setFormData({ ...formData, qualification: e.target.value })}
-                    className="bg-black/20 border-white/10"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="experience">Experience (Years)</Label>
-                  <Input
-                    id="experience"
+                    id="age"
                     type="number"
-                    value={formData.experienceYears}
-                    onChange={(e) => setFormData({ ...formData, experienceYears: e.target.value })}
+                    value={formData.age}
+                    onChange={(e) => setFormData({ ...formData, age: e.target.value })}
                     className="bg-black/20 border-white/10"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="city">City</Label>
+                  <Label htmlFor="gender">Gender</Label>
                   <Input
-                    id="city"
-                    value={formData.city}
-                    onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                    id="gender"
+                    value={formData.gender}
+                    onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
                     className="bg-black/20 border-white/10"
                   />
                 </div>

@@ -20,9 +20,7 @@ export async function GET(request) {
         qualification: true,
         experienceYears: true,
         city: true,
-        avatarUrl: true,
-        availabilityInfo: true,
-        availableSlots: true,
+        profilePhoto: true,
         createdAt: true
       }
     });
@@ -57,9 +55,7 @@ export async function PATCH(request) {
         qualification: qualification ?? doctor.qualification,
         experienceYears: typeof experienceYears === "number" ? experienceYears : doctor.experienceYears,
         city: city ?? doctor.city,
-        availabilityInfo: availabilityInfo ?? doctor.availabilityInfo,
-        avatarUrl: avatarUrl ?? doctor.avatarUrl,
-        availableSlots: Array.isArray(availableSlots) ? availableSlots : doctor.availableSlots,
+        profilePhoto: avatarUrl ?? doctor.profilePhoto,
       },
     });
 
@@ -81,12 +77,8 @@ export async function DELETE(request) {
     const doctor = await prisma.doctor.findUnique({ where: { userId: user.id } });
     if (!doctor) return NextResponse.json({ error: "Doctor profile not found" }, { status: 404 });
 
-    await prisma.$transaction([
-      prisma.medicalRecord.deleteMany({ where: { doctorId: doctor.id } }),
-      prisma.appointment.deleteMany({ where: { doctorId: doctor.id } }),
-      prisma.doctor.delete({ where: { id: doctor.id } }),
-      prisma.user.delete({ where: { id: user.id } }),
-    ]);
+    // Cascade delete handled by database schema
+    await prisma.user.delete({ where: { id: user.id } });
 
     return NextResponse.json({ ok: true });
   } catch (err) {

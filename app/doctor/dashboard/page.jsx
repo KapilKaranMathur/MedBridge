@@ -75,12 +75,10 @@ export default function DoctorDashboard() {
   useEffect(() => {
     fetchProfile();
     fetchAppointments(1, search);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     fetchAppointments(page, search);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
   async function handleCreateRecord(appointment) {
@@ -95,20 +93,31 @@ export default function DoctorDashboard() {
         problem: appointment.notes || "",
         prescription: "",
       };
+      
+      console.log("Creating medical record with payload:", payload);
+      
       const res = await fetch("/api/medical-records", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
 
+      console.log("Medical record creation response status:", res.status);
+
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
+        console.error("Medical record creation failed:", body);
         throw new Error(body.error || "Failed to create medical record");
       }
 
       const record = await res.json();
+      console.log("Medical record created successfully:", record);
+      
+      await new Promise(resolve => setTimeout(resolve, 300));
+      
       window.location.href = `/records/${record.id}`;
     } catch (err) {
+      console.error("Error in handleCreateRecord:", err);
       alert(err.message || "Error creating medical record");
     } finally {
       setBusyCreate(null);
@@ -125,23 +134,20 @@ export default function DoctorDashboard() {
   }
 
   return (
-    // UPDATED: Padding reduced to 'pt-20 md:pt-24' for better clearance
     <div className="min-h-screen bg-background pb-20 pt-20 md:pt-24 relative overflow-hidden">
       
-      {/* Cinematic Background Gradient */}
       <div className="fixed top-0 left-0 w-full h-[500px] bg-radial-gradient from-emerald-900/40 via-background to-background pointer-events-none -z-10" />
       <div className="fixed top-[-10%] right-[-10%] w-[500px] h-[500px] bg-emerald-600/10 rounded-full blur-[100px] pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto p-6 space-y-8">
         
-        {/* Header Section */}
         <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-4 animate-in fade-in slide-in-from-top-4 duration-500">
           <div>
             <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
               Dashboard
             </h1>
             <p className="text-muted-foreground mt-1">
-              Welcome back, <span className="text-emerald-400 font-medium">{doctor?.name || "Doctor"}</span>. You have upcoming appointments.
+              Welcome back, <span className="text-emerald-400 font-medium">{doctor?.name || "Doctor"}</span>
             </p>
           </div>
           <div className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-full px-4 py-2 backdrop-blur-md">
@@ -159,10 +165,8 @@ export default function DoctorDashboard() {
           </div>
         )}
 
-        {/* Pro Stats Cards - Glassmorphism */}
         {doctor ? (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-100">
-            {/* Card 1 */}
             <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-6 hover:bg-white/10 transition-all duration-300">
               <div className="absolute top-0 right-0 p-4 opacity-50 group-hover:opacity-100 transition-opacity">
                 <Stethoscope className="h-16 w-16 text-emerald-500/20 -rotate-12" />
@@ -176,7 +180,6 @@ export default function DoctorDashboard() {
               </div>
             </div>
 
-            {/* Card 2 */}
             <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-6 hover:bg-white/10 transition-all duration-300">
               <div className="absolute top-0 right-0 p-4 opacity-50 group-hover:opacity-100 transition-opacity">
                 <MapPin className="h-16 w-16 text-blue-500/20 -rotate-12" />
@@ -190,7 +193,6 @@ export default function DoctorDashboard() {
               </div>
             </div>
 
-            {/* Card 3 */}
             <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-6 hover:bg-white/10 transition-all duration-300">
               <div className="absolute top-0 right-0 p-4 opacity-50 group-hover:opacity-100 transition-opacity">
                 <Activity className="h-16 w-16 text-purple-500/20 -rotate-12" />
@@ -208,10 +210,8 @@ export default function DoctorDashboard() {
           <div className="h-32 rounded-2xl bg-white/5 animate-pulse border border-white/5" />
         )}
 
-        {/* Main Content Area */}
         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200">
           
-          {/* Toolbar */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white/5 p-1 rounded-xl border border-white/10 backdrop-blur-sm">
             <div className="flex items-center px-4 py-2">
                <h2 className="text-lg font-semibold text-white">Appointments</h2>

@@ -33,8 +33,7 @@ export async function POST(req) {
       redirectPath = "/patient/dashboard";
     }
 
-    const redirectUrl = new URL(redirectPath, req.url);
-    const res = NextResponse.redirect(redirectUrl);
+    const res = NextResponse.json({ success: true, redirectUrl: redirectPath });
 
     res.cookies.set("token", token, {
       httpOnly: true,

@@ -49,7 +49,8 @@ export default function SignInPage() {
       });
 
       if (res.ok) {
-        window.location.href = "/";
+        const data = await res.json();
+        window.location.href = data.redirectUrl || "/";
         return;
       }
 
@@ -63,7 +64,7 @@ export default function SignInPage() {
   }
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center p-4 relative bg-black overflow-hidden">
+    <div className="min-h-screen w-full flex items-center justify-center p-4 pt-20 relative bg-black overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-full bg-linear-to-br from-black via-black to-black -z-20" />
       <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-emerald-800/10 rounded-full blur-[120px] pointer-events-none -z-10" />
 

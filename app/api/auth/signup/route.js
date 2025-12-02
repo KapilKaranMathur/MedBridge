@@ -45,31 +45,43 @@ export async function POST(req) {
 
     const passwordHash = await bcrypt.hash(password, 10);
 
-    const user = await prisma.user.create({
-      data: {
-        name,
-        email,
-        passwordHash,
-        role,
-      },
-    });
-
-    if (role === "doctor") {
-      await prisma.doctor.create({
+    const result = await prisma.$transaction(async (tx) => {
+      const user = await tx.user.create({
         data: {
           name,
-          specialization,
-          qualification,
-          experienceYears: Number(experienceYears),
-          city,
-          consultationFee: Number(consultationFee),
-          userId: user.id,
+          email,
+          passwordHash,
+          role,
         },
       });
-    }
+
+      if (role === "doctor") {
+        await tx.doctor.create({
+          data: {
+            name,
+            specialization,
+            qualification,
+            experienceYears: Number(experienceYears),
+            city,
+            consultationFee: Number(consultationFee || 0), // Default to 0 if not provided, though UI removed it
+            userId: user.id,
+          },
+        });
+      } else if (role === "patient") {
+        await tx.patient.create({
+          data: {
+            age: Number(age) || null,
+            gender: gender || null,
+            userId: user.id,
+          },
+        });
+      }
+      
+      return user;
+    });
 
     return NextResponse.json(
-      { message: "Signup successful", userId: user.id, role: user.role },
+      { message: "Signup successful", userId: result.id, role: result.role },
       { status: 201 }
     );
   } catch (err) {

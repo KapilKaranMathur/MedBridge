@@ -8,12 +8,46 @@ export async function middleware(req) {
     pathname.startsWith(route)
   );
 
+  // Doctor routes protection
+  if (pathname.startsWith("/doctor")) {
+    const token = req.cookies.get("token")?.value;
+    const payload = token && (await verifyJWT(token));
+
+    if (!payload) {
+        const signInUrl = new URL("/sign-in", req.url);
+        signInUrl.searchParams.set("next", pathname);
+        return NextResponse.redirect(signInUrl);
+    }
+
+    if (payload.role !== "doctor") {
+        return NextResponse.redirect(new URL("/", req.url));
+    }
+    return NextResponse.next();
+  }
+
+  // Patient routes protection
+  if (pathname.startsWith("/patient")) {
+    const token = req.cookies.get("token")?.value;
+    const payload = token && (await verifyJWT(token));
+
+    if (!payload) {
+        const signInUrl = new URL("/sign-in", req.url);
+        signInUrl.searchParams.set("next", pathname);
+        return NextResponse.redirect(signInUrl);
+    }
+
+    if (payload.role !== "patient" && payload.role !== "user") {
+         return NextResponse.redirect(new URL("/", req.url));
+    }
+    return NextResponse.next();
+  }
+
   if (!needsAuth) return NextResponse.next();
 
   const token = req.cookies.get("token")?.value;
-  const isValid = token && (await verifyJWT(token));
+  const payload = token && (await verifyJWT(token));
 
-  if (!isValid) {
+  if (!payload) {
     const signInUrl = new URL("/sign-in", req.url);
     signInUrl.searchParams.set("next", pathname);
     return NextResponse.redirect(signInUrl);

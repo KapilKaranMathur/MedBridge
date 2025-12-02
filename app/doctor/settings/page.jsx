@@ -341,7 +341,7 @@ export default function DoctorSettingsPage() {
             </div>
 
             <div className="relative group perspective-1000">
-              <div className="relative w-full aspect-[1.586/1] rounded-2xl bg-gradient-to-br from-zinc-900 to-black border border-zinc-800 shadow-2xl overflow-hidden transition-transform duration-500 group-hover:scale-[1.02]">
+              <div className="relative w-full aspect-[1.586/1] rounded-2xl bg-linear-to-br from-zinc-900 to-black border border-zinc-800 shadow-2xl overflow-hidden transition-transform duration-500 group-hover:scale-[1.02]">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
                 <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-500/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
 
@@ -405,7 +405,7 @@ export default function DoctorSettingsPage() {
                 </div>
               </div>
 
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+              <div className="absolute inset-0 rounded-2xl bg-linear-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

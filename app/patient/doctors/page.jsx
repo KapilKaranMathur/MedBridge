@@ -192,7 +192,7 @@ export default function DoctorsPage() {
           {/* Search & Filter Bar */}
           <div className="flex flex-col lg:flex-row gap-4">
             <div className="relative flex-1 group">
-              <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-transparent rounded-xl blur opacity-0 group-focus-within:opacity-100 transition-opacity duration-500" />
+              <div className="absolute inset-0 bg-linear-to-r from-emerald-500/10 to-transparent rounded-xl blur opacity-0 group-focus-within:opacity-100 transition-opacity duration-500" />
               <div className="relative flex items-center">
                 <Search className="absolute left-4 h-5 w-5 text-zinc-500" />
                 <Input
@@ -210,7 +210,7 @@ export default function DoctorsPage() {
                 variant="outline"
                 onClick={() => setSelectedSpecialty("All")}
                 className={cn(
-                  "h-14 rounded-xl border-zinc-800 min-w-[80px]",
+                  "h-14 rounded-xl border-zinc-800 min-w-20",
                   selectedSpecialty === "All"
                     ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/50"
                     : "bg-zinc-900 text-zinc-400 hover:text-white hover:bg-zinc-800"
@@ -283,8 +283,8 @@ export default function DoctorsPage() {
                   Available
                 </div>
 
-                <div className="h-24 bg-gradient-to-br from-zinc-800 to-zinc-900 relative">
-                  <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                <div className="h-24 bg-linear-to-br from-zinc-800 to-zinc-900 relative">
+                  <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#10b981_1px,transparent_1px)] bg-size-[16px_16px]"></div>
                 </div>
 
                 <CardContent className="pt-0 pb-6 flex-1 flex flex-col px-6">

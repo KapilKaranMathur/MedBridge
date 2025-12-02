@@ -325,7 +325,7 @@ export default function PatientSettingsPage() {
               </div>
 
               <div className="relative group perspective-1000">
-                <div className="relative w-full aspect-[1.586/1] rounded-2xl overflow-hidden bg-gradient-to-br from-zinc-900 to-black border border-zinc-800 shadow-2xl transition-transform duration-500 group-hover:scale-[1.02]">
+                <div className="relative w-full aspect-[1.586/1] rounded-2xl overflow-hidden bg-linear-to-br from-zinc-900 to-black border border-zinc-800 shadow-2xl transition-transform duration-500 group-hover:scale-[1.02]">
                   <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
                   <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-500/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
 
@@ -348,8 +348,8 @@ export default function PatientSettingsPage() {
                     </div>
 
                     <div className="flex items-center gap-4 my-2 opacity-80">
-                      <div className="w-10 h-8 rounded-md bg-gradient-to-br from-yellow-200/20 to-yellow-500/20 border border-yellow-500/30 flex items-center justify-center">
-                        <div className="w-full h-[1px] bg-yellow-500/30" />
+                      <div className="w-10 h-8 rounded-md bg-linear-to-br from-yellow-200/20 to-yellow-500/20 border border-yellow-500/30 flex items-center justify-center">
+                        <div className="w-full h-px bg-yellow-500/30" />
                       </div>
                       <Activity className="h-6 w-6 text-zinc-600 rotate-90" />
                     </div>
@@ -395,7 +395,7 @@ export default function PatientSettingsPage() {
                     </div>
                   </div>
                 </div>
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                <div className="absolute inset-0 rounded-2xl bg-linear-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
               </div>
 
               <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4 flex items-start gap-3">

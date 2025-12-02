@@ -15,4 +15,77 @@ model User {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   role         String?  @default("user")
+
+  appointments   Appointment[]
+  medicalRecords MedicalRecord[]
+  followUps      FollowUp[]
+  Doctor         Doctor?
+}
+
+model Doctor {
+  id              Int      @id @default(autoincrement())
+  name            String
+  specialization  String
+  city            String
+  experienceYears Int
+  consultationFee Int
+  qualification   String?
+  profilePhoto    String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  userId String? @unique
+  user   User?   @relation(fields: [userId], references: [id])
+
+  appointments   Appointment[]
+  medicalRecords MedicalRecord[]
+}
+
+model Appointment {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  doctorId  Int
+  doctor    Doctor   @relation(fields: [doctorId], references: [id])
+  dateTime  DateTime
+  status    String
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  medicalRecord MedicalRecord?
+
+  @@index([userId])
+  @@index([doctorId])
+}
+
+model MedicalRecord {
+  id            Int         @id @default(autoincrement())
+  appointmentId Int         @unique
+  appointment   Appointment @relation(fields: [appointmentId], references: [id])
+  doctorId      Int
+  doctor        Doctor      @relation(fields: [doctorId], references: [id])
+  patientId     String
+  patient       User        @relation(fields: [patientId], references: [id])
+  problem       String
+  prescription  String?
+  status        String      @default("OPEN")
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  followUps FollowUp[]
+}
+
+model FollowUp {
+  id              Int           @id @default(autoincrement())
+  medicalRecordId Int
+  medicalRecord   MedicalRecord @relation(fields: [medicalRecordId], references: [id])
+  authorId        String
+  author          User          @relation(fields: [authorId], references: [id])
+  authorRole      String
+  message         String
+  createdAt       DateTime      @default(now())
+
+  @@index([medicalRecordId])
+  @@index([authorId])
 }

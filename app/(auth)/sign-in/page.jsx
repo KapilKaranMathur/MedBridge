@@ -1,59 +1,138 @@
 "use client";
 
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { 
+  Card, 
+  CardContent, 
+  CardHeader, 
+  CardTitle, 
+  CardFooter
+} from "@/components/ui/card";
+import { 
+  Mail, 
+  Lock, 
+  LogIn, 
+  Loader2,
+  ArrowRight
+} from "lucide-react";
+import Link from "next/link";
+
+const InputField = ({ icon: Icon, ...props }) => (
+  <div className="relative group">
+    <Icon className="absolute left-3 top-2.5 h-4 w-4 text-gray-500 group-focus-within:text-emerald-400 transition-colors pointer-events-none" />
+    <Input 
+      {...props}
+      className="pl-9 h-10 bg-black/40 border-white/20 text-sm text-white placeholder:text-gray-500 focus-visible:ring-emerald-400/40 focus-visible:border-emerald-400 transition-all" 
+    />
+  </div>
+);
 
 export default function SignInPage() {
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
+    setIsLoading(true);
 
     const email = e.target.email.value;
     const password = e.target.password.value;
 
-    const res = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-    if (res.ok) {
-      window.location.href = "/";
-      return;
+      if (res.ok) {
+        window.location.href = "/";
+        return;
+      }
+
+      const data = await res.json();
+      setError(data.error || "Login failed");
+    } catch (err) {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
-
-    const data = await res.json();
-    setError(data.error || "Login failed");
   }
 
   return (
-    <div className="container mx-auto max-w-md mt-20">
-      <h1 className="text-2xl font-bold mb-4">Sign In</h1>
+    <div className="min-h-screen w-full flex items-center justify-center p-4 relative bg-black overflow-hidden">
+      <div className="absolute top-0 left-0 w-full h-full bg-linear-to-br from-black via-black to-black -z-20" />
+      <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-emerald-800/10 rounded-full blur-[120px] pointer-events-none -z-10" />
 
-      {error && <p className="text-red-500 mb-3">{error}</p>}
+      <Card className="w-full max-w-sm border-white/10 bg-black/60 backdrop-blur-xl shadow-2xl">
+        <CardHeader className="text-center pb-2 pt-6">
+          <div className="mx-auto h-12 w-12 rounded-full bg-emerald-700/20 flex items-center justify-center mb-4 border border-emerald-700/40">
+            <LogIn className="h-6 w-6 text-emerald-400" />
+          </div>
+          <CardTitle className="text-2xl font-bold text-white tracking-tight">
+            Welcome Back
+          </CardTitle>
+          <p className="text-xs text-gray-400 mt-1">
+            Sign in to access your dashboard
+          </p>
+        </CardHeader>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          name="email"
-          type="email"
-          placeholder="Email"
-          className="border p-2 w-full"
-        />
-        <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          className="border p-2 w-full"
-        />
+        <CardContent className="space-y-4 pt-3">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {error && (
+              <div className="p-2.5 rounded bg-red-700/20 border border-red-500/30 text-red-400 text-xs text-center font-medium">
+                {error}
+              </div>
+            )}
 
-        <button
-          type="submit"
-          className="bg-emerald-600 text-white p-2 rounded w-full"
-        >
-          Sign In
-        </button>
-      </form>
+            <div className="space-y-3">
+              <InputField 
+                icon={Mail} 
+                name="email" 
+                type="email" 
+                placeholder="Email Address" 
+                required 
+              />
+              
+              <div className="space-y-1">
+                <InputField 
+                  icon={Lock} 
+                  name="password" 
+                  type="password" 
+                  placeholder="Password" 
+                  required 
+                />
+              </div>
+            </div>
+
+            <Button 
+              type="submit" 
+              className="w-full bg-emerald-700 hover:bg-emerald-600 text-white font-medium h-10 shadow-[0_0_18px_rgba(4,120,87,0.5)] transition-all mt-2"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <span className="flex items-center gap-2">
+                  Sign In <ArrowRight className="h-4 w-4" />
+                </span>
+              )}
+            </Button>
+          </form>
+        </CardContent>
+
+        <CardFooter className="pb-6 pt-2 flex justify-center">
+          <p className="text-gray-400 text-xs">
+            Don&apos;t have an account?{" "}
+            <Link href="/sign-up" className="text-emerald-400 hover:text-emerald-300 font-medium">
+              Sign Up
+            </Link>
+          </p>
+        </CardFooter>
+      </Card>
     </div>
   );
 }

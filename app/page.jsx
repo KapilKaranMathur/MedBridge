@@ -17,6 +17,14 @@ import { Marquee } from "../components/ui/marquee";
 import MarqueeDemo from "../components/MarqueeDemo";
 
 export default function Home() {
+  // New local benefits list (non-pricing) to replace "Consultation Packages" section
+  const platformBenefits = [
+    "Secure, centralized medical records — patients and doctors access a single source of truth.",
+    "Seamless teleconsultations and in-app messaging for quick follow-ups.",
+    "Effortless appointment scheduling and calendar sync to avoid double bookings.",
+    "Patient-first features: shared prescriptions, visit summaries, and follow-up reminders.",
+  ];
+
   return (
     <div className="bg-background">
       <section className="relative overflow-hidden py-50">
@@ -110,36 +118,33 @@ export default function Home() {
 
       <hr />
 
+      {/* Replaced "Consultation Packages" / pricing section with platform services (non-pricing) */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Consultation Packages
+              Platform Services
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Choose the perfect consultaion package that fits your healthcare
-              needs
+              Tools and features that make care simpler for doctors and patients.
             </p>
           </div>
           <div>
             <Card className="mt-12 bg-muted/20 border-emerald-900/30">
               <CardHeader>
                 <CardTitle className="text-xl font-semibold text-white flex items-center">
-                  How Our Credit System Works
+                  How Our Platform Helps
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-3">
-                  {creditBenefits.map((benefit, index) => {
+                  {platformBenefits.map((benefit, index) => {
                     return (
                       <li key={index} className="flex items-start">
                         <div className="mr-3 mt-1 bg-emerald-900/20 p-1 rounded-full">
                           <Check className="h-4 w-4 text-emerald-400" />
                         </div>
-                        <p
-                          className="text-muted-foreground"
-                          dangerouslySetInnerHTML={{ __html: benefit }}
-                        />
+                        <p className="text-muted-foreground">{benefit}</p>
                       </li>
                     );
                   })}
@@ -184,14 +189,6 @@ export default function Home() {
                   asChild
                 >
                   <Link href="/sign-up">Sign Up Now</Link>
-                </Button>
-                <Button
-                  asChild
-                  variant="outline"
-                  size="lg"
-                  className="border-emerald-700/30 hover:bg-muted/80"
-                >
-                  <Link href={"/pricing"}>View Pricing</Link>
                 </Button>
                 </div>
               </div>

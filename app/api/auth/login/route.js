@@ -20,13 +20,20 @@ export async function POST(req) {
     }
 
     const token = jwt.sign(
-      { userId: user.id, email: user.email },
+      { userId: user.id, email: user.email, role: user.role },
       SECRET,
       { expiresIn: "1d" }
     );
 
-    // ✅ must use absolute URL
-    const redirectUrl = new URL("/", req.url);
+    let redirectPath = "/";
+
+    if (user.role === "doctor") {
+      redirectPath = "/doctor/dashboard";
+    } else if (user.role === "patient" || user.role === "user") {
+      redirectPath = "/patient/dashboard";
+    }
+
+    const redirectUrl = new URL(redirectPath, req.url);
     const res = NextResponse.redirect(redirectUrl);
 
     res.cookies.set("token", token, {
@@ -34,6 +41,7 @@ export async function POST(req) {
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
       path: "/",
+      maxAge: 60 * 60 * 24
     });
 
     return res;

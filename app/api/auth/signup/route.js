@@ -63,7 +63,7 @@ export async function POST(req) {
             qualification,
             experienceYears: Number(experienceYears),
             city,
-            consultationFee: Number(consultationFee || 0), // Default to 0 if not provided, though UI removed it
+            consultationFee: Number(consultationFee || 0),
             userId: user.id,
           },
         });

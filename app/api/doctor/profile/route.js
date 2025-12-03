@@ -43,7 +43,7 @@ export async function PATCH(request) {
     }
 
     const body = await request.json().catch(() => ({}));
-    const { specialization, qualification, experienceYears, city, availabilityInfo, avatarUrl, availableSlots } = body;
+    const { name, specialization, qualification, experienceYears, city, availabilityInfo, avatarUrl, availableSlots } = body;
 
     const doctor = await prisma.doctor.findUnique({ where: { userId: user.id } });
     if (!doctor) return NextResponse.json({ error: "Doctor profile not found" }, { status: 404 });
@@ -51,6 +51,7 @@ export async function PATCH(request) {
     const updated = await prisma.doctor.update({
       where: { id: doctor.id },
       data: {
+        name: name ?? doctor.name,
         specialization: specialization ?? doctor.specialization,
         qualification: qualification ?? doctor.qualification,
         experienceYears: typeof experienceYears === "number" ? experienceYears : doctor.experienceYears,

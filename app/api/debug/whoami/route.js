@@ -1,4 +1,3 @@
-// app/api/debug/whoami/route.js
 import { NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 

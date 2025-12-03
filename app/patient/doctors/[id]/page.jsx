@@ -112,7 +112,7 @@ export default function BookAppointmentPage() {
             <Card className="bg-white/5 border-white/10 overflow-hidden">
               <div className="h-32 bg-emerald-900/20 relative">
                 <div className="absolute -bottom-10 left-1/2 -translate-x-1/2">
-                   <div className="h-20 w-20 rounded-full bg-black border-4 border-black flex items-center justify-center text-2xl font-bold text-white bg-emerald-600">
+                   <div className="h-20 w-20 rounded-full bg-black border-4 border-black flex items-center justify-center text-2xl font-bold text-white">
                       {doctor.name.charAt(0)}
                    </div>
                 </div>

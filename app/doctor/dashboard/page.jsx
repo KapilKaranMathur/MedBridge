@@ -137,7 +137,7 @@ export default function DoctorDashboard() {
         throw new Error(body.error || "Failed to cancel appointment");
       }
 
-      // Remove from local state
+
       setAppointments(prev => prev.filter(a => a.id !== appointmentId));
     } catch (err) {
       alert(err.message || "Error cancelling appointment");
@@ -253,7 +253,7 @@ export default function DoctorDashboard() {
             </div>
           </div>
 
-          {/* List/Grid */}
+
           <Card className="bg-transparent border-none shadow-none">
             <CardContent className="p-0 space-y-3">
               {loading ? (
@@ -278,19 +278,19 @@ export default function DoctorDashboard() {
                       key={a.id} 
                       className="group flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6 p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-white/[0.07] hover:border-emerald-500/30 transition-all duration-300"
                     >
-                      {/* Date Widget */}
+
                       <div className="hidden md:flex flex-col items-center justify-center w-16 h-16 rounded-lg bg-emerald-950/50 border border-emerald-500/20 text-emerald-400 shrink-0">
                         <span className="text-xs uppercase font-bold tracking-wider">{dateObj.toLocaleDateString('en-US', { month: 'short' })}</span>
                         <span className="text-xl font-bold text-white">{dateObj.getDate()}</span>
                       </div>
 
-                      {/* Mobile Date (Small) */}
+
                       <div className="md:hidden flex items-center gap-2 text-emerald-400 text-sm font-medium">
                         <Calendar className="h-4 w-4" />
                         {dateObj.toLocaleDateString()} at {dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
                       </div>
 
-                      {/* Patient Info */}
+
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-3 mb-1">
                           <h4 className="text-lg font-semibold text-white truncate">{a.user?.name || "Unknown Patient"}</h4>
@@ -314,7 +314,6 @@ export default function DoctorDashboard() {
                         )}
                       </div>
 
-                      {/* Actions */}
                       <div className="flex items-center gap-2 w-full md:w-auto mt-2 md:mt-0">
                         {a.medicalRecordId ? (
                           <Button 
@@ -358,7 +357,6 @@ export default function DoctorDashboard() {
               )}
             </CardContent>
             
-            {/* Pagination Footer */}
             {pagination && (
               <div className="flex items-center justify-between py-6">
                 <Button
@@ -371,7 +369,6 @@ export default function DoctorDashboard() {
                 </Button>
 
                 <div className="flex gap-1">
-                  {/* Simple dots for pages */}
                   {Array.from({ length: pagination.totalPages || 1 }).map((_, i) => (
                     <div 
                       key={i} 

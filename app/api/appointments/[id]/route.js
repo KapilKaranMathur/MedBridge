@@ -69,17 +69,15 @@ export async function DELETE(request, { params }) {
       return NextResponse.json({ error: "Appointment not found" }, { status: 404 });
     }
 
-    // Authorization check
+
     let isAuthorized = false;
 
     if (user.role === "doctor") {
-      // Check if the doctor owns this appointment
       const doctor = await prisma.doctor.findUnique({ where: { userId: user.id } });
       if (doctor && doctor.id === appointment.doctorId) {
         isAuthorized = true;
       }
     } else {
-      // Check if the patient owns this appointment
       if (appointment.userId === user.id) {
         isAuthorized = true;
       }

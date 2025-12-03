@@ -7,7 +7,7 @@ export async function GET(request) {
     const user = await getCurrentUser(request);
     if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     
-    // Allow 'user' role as well since default is 'user' but they might be patients
+
     if (user.role && user.role !== "patient" && user.role !== "user") {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
@@ -16,7 +16,6 @@ export async function GET(request) {
       where: { userId: user.id },
     });
 
-    // If patient record doesn't exist (legacy users), return basic user info
     return NextResponse.json({ 
       patient: {
         ...patient,
@@ -42,7 +41,6 @@ export async function PATCH(request) {
     const body = await request.json().catch(() => ({}));
     const { name, age, gender } = body;
 
-    // Update User name
     if (name) {
       await prisma.user.update({
         where: { id: user.id },
@@ -50,7 +48,6 @@ export async function PATCH(request) {
       });
     }
 
-    // Upsert Patient record
     const patient = await prisma.patient.upsert({
       where: { userId: user.id },
       create: {

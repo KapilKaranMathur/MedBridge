@@ -39,7 +39,7 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
-// Mock specialties for the filter (In a real app, fetch these)
+
 const SPECIALTIES = [
   "Cardiology",
   "Dermatology",
@@ -56,7 +56,7 @@ export default function DoctorsPage() {
   const [selectedSpecialty, setSelectedSpecialty] = useState("All");
   const [loading, setLoading] = useState(true);
 
-  // Booking modal state
+
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [date, setDate] = useState();
@@ -71,7 +71,7 @@ export default function DoctorsPage() {
   }, []);
 
   useEffect(() => {
-    // Client-side filtering for immediate feedback
+
     let result = doctors;
 
     if (search) {
@@ -95,8 +95,6 @@ export default function DoctorsPage() {
   async function loadDoctors() {
     setLoading(true);
     try {
-      // In a real scenario, you might pass search params to the API
-      // keeping it simple here to allow client-side specialty filtering easily
       const res = await fetch(`/api/doctors`);
       const json = await res.json();
       const data = json.data || [];
@@ -162,14 +160,12 @@ export default function DoctorsPage() {
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 font-sans selection:bg-emerald-500/30 pt-32 pb-12">
-      {/* Background Ambience */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-emerald-900/10 rounded-full blur-[120px]" />
         <div className="absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] bg-zinc-900/50 rounded-full blur-[120px]" />
       </div>
 
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-10">
-        {/* Header Section */}
         <div className="space-y-6">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
@@ -182,14 +178,12 @@ export default function DoctorsPage() {
               </p>
             </div>
 
-            {/* Quick Stats or Info could go here */}
             <div className="hidden md:flex items-center gap-2 text-sm text-zinc-500 bg-zinc-900/50 px-4 py-2 rounded-full border border-zinc-800">
               <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
               {doctors.length} Doctors Available Now
             </div>
           </div>
 
-          {/* Search & Filter Bar */}
           <div className="flex flex-col lg:flex-row gap-4">
             <div className="relative flex-1 group">
               <div className="absolute inset-0 bg-linear-to-r from-emerald-500/10 to-transparent rounded-xl blur opacity-0 group-focus-within:opacity-100 transition-opacity duration-500" />
@@ -204,7 +198,6 @@ export default function DoctorsPage() {
               </div>
             </div>
 
-            {/* Specialty Pills */}
             <div className="flex items-center gap-2 overflow-x-auto pb-2 lg:pb-0 scrollbar-hide">
               <Button
                 variant="outline"
@@ -237,7 +230,6 @@ export default function DoctorsPage() {
           </div>
         </div>
 
-        {/* Content Grid */}
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
@@ -288,7 +280,6 @@ export default function DoctorsPage() {
                 </div>
 
                 <CardContent className="pt-0 pb-6 flex-1 flex flex-col px-6">
-                  {/* Avatar */}
                   <div className="-mt-12 mb-4 relative inline-block self-start">
                     <div className="h-20 w-20 rounded-2xl bg-zinc-800 border-4 border-zinc-900 flex items-center justify-center text-2xl font-bold text-zinc-400 group-hover:text-emerald-400 group-hover:border-zinc-800 transition-colors shadow-xl">
                       {doctor.name.charAt(0)}
@@ -347,7 +338,6 @@ export default function DoctorsPage() {
         )}
       </div>
 
-      {/* Booking Dialog */}
       <Dialog open={isBookingOpen} onOpenChange={setIsBookingOpen}>
         <DialogContent className="bg-zinc-950 border-zinc-800 text-zinc-100 sm:max-w-[500px] p-0 gap-0 overflow-hidden shadow-2xl shadow-black/50">
           {success ? (

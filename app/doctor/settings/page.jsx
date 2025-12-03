@@ -259,6 +259,30 @@ export default function DoctorSettingsPage() {
                   </div>
                 </form>
               </CardContent>
+              <CardFooter className="bg-zinc-900/50 border-t border-zinc-800 py-4 flex justify-between items-center">
+                <p className="text-xs text-zinc-500">
+                  Last updated: {new Date().toLocaleDateString()}
+                </p>
+                <Button
+                  type="submit"
+                  form="profile-form"
+                  disabled={saving}
+                  className={`min-w-[120px] transition-all duration-300 ${
+                    success
+                      ? "bg-emerald-600 hover:bg-emerald-700"
+                      : "bg-white text-zinc-900 hover:bg-zinc-200"
+                  }`}
+                >
+                  {saving ? (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  ) : success ? (
+                    <ShieldCheck className="mr-2 h-4 w-4" />
+                  ) : (
+                    <Save className="mr-2 h-4 w-4" />
+                  )}
+                  {success ? "Saved!" : "Save Changes"}
+                </Button>
+              </CardFooter>
 
               <Card className="bg-red-950/10 border-red-900/30 shadow-none rounded-xl">
                 <CardHeader className="pb-1">

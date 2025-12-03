@@ -1,4 +1,4 @@
-// app/api/doctor/appointments/route.js
+
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth";
@@ -31,7 +31,7 @@ export async function GET(request) {
         ];
       }
     } else {
-      // Patient or regular user
+
       where.userId = user.id;
       if (search) {
         where.OR = [

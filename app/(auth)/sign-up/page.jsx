@@ -17,7 +17,6 @@ import {
   Stethoscope,
   GraduationCap,
   Building2,
-  // Wallet, // Removed pricing icon
   Calendar,
   Baby,
   Users,
@@ -45,7 +44,6 @@ export default function SignUpPage() {
   const [qualification, setQualification] = useState("");
   const [experienceYears, setExperienceYears] = useState("");
   const [city, setCity] = useState("");
-  // const [consultationFee, setConsultationFee] = useState(""); // Removed pricing
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
 
@@ -65,7 +63,6 @@ export default function SignUpPage() {
       payload.qualification = qualification;
       payload.experienceYears = Number(experienceYears);
       payload.city = city;
-      // payload.consultationFee = Number(consultationFee); // Removed pricing
     }
 
     if (role === "patient") {

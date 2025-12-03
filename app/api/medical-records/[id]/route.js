@@ -72,7 +72,7 @@ export async function PATCH(request, { params }) {
     const record = await prisma.medicalRecord.findUnique({ where: { id } });
     if (!record) return NextResponse.json({ message: "Not found" }, { status: 404 });
 
-    // Verify doctor owns this record
+
     const doctor = await prisma.doctor.findUnique({ where: { userId: user.id } });
     if (!doctor || record.doctorId !== doctor.id) {
       return NextResponse.json({ message: "Forbidden" }, { status: 403 });

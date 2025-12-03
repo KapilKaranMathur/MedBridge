@@ -59,7 +59,6 @@ export default function RecordThread({ params }) {
   async function load() {
     setLoading(true);
     
-    // Fetch current user
     const authRes = await fetch("/api/auth/me");
     if (authRes.ok) {
       const authData = await authRes.json();
@@ -171,12 +170,10 @@ export default function RecordThread({ params }) {
 
   return (
     <div className="min-h-screen bg-black pb-24 pt-28 relative overflow-hidden">
-      {/* Subtle Background Effects */}
 
       <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-emerald-900/5 via-transparent to-transparent pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        {/* Header Navigation */}
 
         <div className="flex items-center gap-4">
           <Button
@@ -395,7 +392,6 @@ export default function RecordThread({ params }) {
 
                 <Separator className="bg-zinc-900" />
 
-                {/* Input Area */}
 
                 <div className="relative">
                   <Textarea

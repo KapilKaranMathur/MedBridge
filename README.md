@@ -1,88 +1,87 @@
-🩺 MedBridge – Smart Appointments Made Easy
+# 🏥 MedBridge – Smart Appointments Made Easy
 
-💾 Database Hosting: NeonDB / PlanetScale / Supabase
+**MedBridge** is a comprehensive healthcare platform designed to bridge the gap between patients and doctors. It simplifies the appointment booking process, manages patient records, and facilitates seamless communication.
 
-Seamlessly book appointments, manage schedules, and connect with doctors via video consultation.
+---
 
-📖 Problem Statement
+## 1. 🎯 Problem Statement
 
-Booking doctor appointments traditionally can be frustrating:
+Booking doctor appointments in traditional ways often involves long waiting times, phone calls, and scheduling conflicts. Patients struggle to find available doctors for specific specializations, while doctors find it hard to manage appointments efficiently.
 
-Long waiting times ⏳
+**MedBridge** aims to bridge this gap by providing an easy-to-use online platform where:
+*   **Patients** can seamlessly search for doctors, view their availability, and book appointments instantly.
+*   **Doctors** can manage their schedules, appointments, and patient records effectively.
 
-Multiple phone calls 📞
+---
 
-Scheduling conflicts ❌
+## 2. 🏗️ System Architecture
 
-Patients struggle to find available doctors for their specialization, while doctors face challenges managing appointments efficiently.
+**Project Structure:**
+`Frontend` → `Backend (API)` → `Database`
 
-MedBridge bridges this gap with an easy-to-use online platform where patients can instantly search, view availability, and book appointments, while doctors can manage schedules and patient records effectively.
+**Core Components:**
+*   **Authentication:** Custom JWT (Secure & Scalable)
+*   **Database:** PostgreSQL (via Prisma ORM)
+*   **Hosting:** Render / Vercel
 
-💡 Solution
+**Example Stack:**
+*   **Frontend:** Next.js 15, React 19, TailwindCSS, Shadcn UI
+*   **Backend:** Next.js API Routes (Node.js style)
+*   **Database:** PostgreSQL (NeonDB / Render Managed DB) via Prisma ORM
+*   **Authentication:** Custom JWT + Bcrypt (Replaced Clerk for full control)
+*   **Video/Call Integration:** Vonage API (Architecture Ready)
 
-MedBridge provides:
+---
 
-📅 Doctor Search & Availability: Find doctors by specialization, city, or available slots.
+## 3. 🚀 Key Features
 
-🏥 Appointment Management: Book, reschedule, or cancel appointments.
+| Category | Features |
+| :--- | :--- |
+| **🔐 Authentication** | User registration, login, logout, role-based access (Patient / Doctor / Admin) using **Custom JWT**. |
+| **�️ CRUD Operations** | Create, read, update, delete core entities: Users, Doctors, Appointments, Medical Records. |
+| **📱 Frontend Routing** | Pages: Home, Login, Dashboard, Doctor Profile, Appointment Details, Settings. |
+| **�‍⚕️ Doctor Management** | Doctors can set availability, manage schedules, view appointments, and update profiles. |
+| **📅 Appointment Management** | Book, reschedule, cancel appointments; Real-time status updates. |
+| **📊 Dashboards** | **Doctor Dashboard:** Manage patients & records.<br>**Patient Dashboard:** View history & upcoming visits. |
+| **📹 Video Consultation** | Architecture ready for doctor-patient video calls using Vonage API. |
+| **🔔 Notifications** | In-app updates for appointment confirmations and cancellations. |
+| **🎨 Responsive UI** | Fully mobile-friendly interface using **TailwindCSS** and **Shadcn UI**. |
+| **☁️ Hosting** | Deployed on **Render** (or Vercel) with PostgreSQL cloud database. |
 
-🎥 Video Consultation: Real-time video calls between patients and doctors.
+---
 
-👨‍⚕️ Doctor Dashboard: Manage schedules, appointments, and patient notes.
+## 4. � Tech Stack
 
-🛠️ Admin Dashboard: Approve doctors, manage users, and view reports.
+| Layer | Technologies |
+| :--- | :--- |
+| **Frontend** | Next.js 15, React 19, TailwindCSS, Shadcn UI, Lucide Icons |
+| **Backend** | Next.js API Routes (Node.js), Prisma ORM |
+| **Database** | PostgreSQL (NeonDB / Render) |
+| **Authentication** | Custom JWT (Jose + Bcrypt) |
+| **Video Integration** | Vonage API (Ready) |
+| **Hosting** | Render (Web Service), Vercel |
 
-🔔 Notifications: Email & in-app alerts for appointments.
+---
 
-🏗️ System Architecture
-Frontend → Backend (API) → Database
+## 5. 🔌 API Overview
 
+| Endpoint | Method | Description | Access |
+| :--- | :--- | :--- | :--- |
+| `/api/auth/signup` | `POST` | Register a new user (Patient / Doctor) | Public |
+| `/api/auth/login` | `POST` | Authenticate user and return JWT | Public |
+| `/api/doctors` | `GET` | Get list of all registered doctors | Authenticated |
+| `/api/doctors/:id` | `GET` | Get details of a specific doctor | Authenticated |
+| `/api/appointments` | `POST` | Book a new appointment | Authenticated |
+| `/api/appointments/:id` | `GET` | View appointment details | Authenticated |
+| `/api/appointments/:id` | `DELETE` | Cancel an appointment | Authenticated |
+| `/api/doctor/profile` | `PATCH` | Update doctor profile & availability | Doctor only |
+| `/api/patient/profile` | `PATCH` | Update patient profile | Patient only |
+| `/api/medical-records` | `POST` | Create medical record for patient | Doctor only |
+| `/api/video/token` | `POST` | Generate Vonage token for video call | Authenticated |
 
-Authentication: Clerk + JWT
+---
+📜 License
 
-Video/Call Integration: Vonage API
-
-Frontend: Next.js 15 + React 19 + TailwindCSS + Shadcn UI
-
-Backend: Next.js API Routes (Node.js style)
-
-Database: NeonDB (PostgreSQL) via Prisma ORM
-
-Hosting: Vercel (Fullstack)
-
-✨ Key Features
-Category	Features
-🔐 Authentication & Authorization	User registration, login, logout, role-based access (Patient / Doctor / Admin) using Clerk + JWT
-📝 CRUD Operations	Manage Users, Doctors, Appointments, Notes, Availability Slots
-🌐 Frontend Routing	Pages: Home, Login, Dashboard, Doctor Profile, Appointment Details, Admin Panel, Video Call Page
-👩‍⚕️ Doctor & Patient Management	Patients search doctors by specialization & availability; Doctors manage schedules & appointments
-📅 Appointment Management	Book, reschedule, cancel appointments; mark complete; add notes
-🏢 Doctor/Admin Dashboard	Set availability, manage appointments, approve doctors, view reports
-🎥 Video Consultation	Real-time doctor-patient calls using Vonage API
-🔔 Notifications	Email & in-app notifications for updates
-📱 Responsive UI	Fully mobile-friendly with TailwindCSS + Shadcn UI
-☁️ Hosting	Frontend + Backend deployed on Vercel, Database on NeonDB / PlanetScale / Supabase
-🛠️ Tech Stack
-
-Frontend: Next.js 15, React 19, TailwindCSS, Shadcn UI, Axios
-Backend: Next.js API Routes (Node.js style)
-Database: NeonDB (PostgreSQL) via Prisma ORM
-Authentication: Clerk + JWT
-Video Call: Vonage API
-Hosting: Vercel (Fullstack), NeonDB / PlanetScale / Supabase
-
-
-🧩 API Overview
-Endpoint	Method	Description	Access
-/api/auth/signup	POST	Register a new user (Patient / Doctor)	🌐 Public
-/api/auth/login	POST	Authenticate user and return JWT / session	🌐 Public
-/api/doctors	GET	Get list of all registered doctors	🔒 Authenticated
-/api/doctors/:id	GET	Get details of a specific doctor	🔒 Authenticated
-/api/appointments	POST	Book a new appointment	🔒 Authenticated
-/api/appointments/:id	GET	View appointment details	🔒 Authenticated
-/api/appointments/:id	PUT	Update or reschedule an appointment	🔒 Authenticated
-/api/appointments/:id	DELETE	Cancel an appointment	🔒 Authenticated
-/api/doctors/availability	POST	Set doctor availability slots	👨‍⚕️ Doctor only
-/api/admin/doctors	POST	Add or approve doctor profiles	🛠️ Admin only
-/api/admin/users	GET	Manage all users	🛠️ Admin only
-/api/video/token	POST	Generate Vonage token for video call	🔒 Authenticated
+MIT License © EdgeWorks Team
+---
+*Generated with ❤️ by MedBridge Team*

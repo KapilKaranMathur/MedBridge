@@ -21,15 +21,14 @@ Booking doctor appointments in traditional ways often involves long waiting time
 
 **Core Components:**
 *   **Authentication:** Custom JWT (Secure & Scalable)
-*   **Database:** PostgreSQL (via Prisma ORM)
-*   **Hosting:** Render / Vercel
+*   **Database:** Neon (PostgreSQL)
+*   **Hosting:** Render
 
 **Example Stack:**
 *   **Frontend:** Next.js 15, React 19, TailwindCSS, Shadcn UI
 *   **Backend:** Next.js API Routes (Node.js style)
 *   **Database:** PostgreSQL (NeonDB / Render Managed DB) via Prisma ORM
 *   **Authentication:** Custom JWT + Bcrypt (Replaced Clerk for full control)
-*   **Video/Call Integration:** Vonage API (Architecture Ready)
 
 ---
 
@@ -58,8 +57,7 @@ Booking doctor appointments in traditional ways often involves long waiting time
 | **Backend** | Next.js API Routes (Node.js), Prisma ORM |
 | **Database** | PostgreSQL (NeonDB / Render) |
 | **Authentication** | Custom JWT (Jose + Bcrypt) |
-| **Video Integration** | Vonage API (Ready) |
-| **Hosting** | Render (Web Service), Vercel |
+| **Hosting** | Render (Web Service) |
 
 ---
 

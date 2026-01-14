@@ -77,7 +77,7 @@ export async function DELETE(request) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    // Cascade delete handled by database schema
+
     await prisma.user.delete({ where: { id: user.id } });
 
     return NextResponse.json({ ok: true });

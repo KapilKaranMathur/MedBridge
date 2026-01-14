@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 
 export async function POST(req) {
   try {
-    // 1. Check Environment Variables
+
     if (!process.env.JWT_SECRET) {
       console.error("CRITICAL: JWT_SECRET is missing");
       return NextResponse.json({ error: "Server Error: JWT_SECRET is missing in Vercel env vars" }, { status: 500 });
@@ -17,7 +17,7 @@ export async function POST(req) {
 
     const { email, password } = await req.json();
 
-    // 2. Check Database Connection
+
     let user;
     try {
       user = await prisma.user.findUnique({ where: { email } });
@@ -30,13 +30,13 @@ export async function POST(req) {
       return NextResponse.json({ error: "Invalid credentials (User not found)" }, { status: 401 });
     }
 
-    // 3. Check Password
+
     const validPassword = await bcrypt.compare(password, user.passwordHash);
     if (!validPassword) {
       return NextResponse.json({ error: "Invalid credentials (Password mismatch)" }, { status: 401 });
     }
 
-    // 4. Sign Token
+
     const token = jwt.sign(
       { userId: user.id, email: user.email, role: user.role },
       process.env.JWT_SECRET,

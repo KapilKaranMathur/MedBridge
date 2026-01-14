@@ -78,7 +78,7 @@ export async function DELETE(request) {
     const doctor = await prisma.doctor.findUnique({ where: { userId: user.id } });
     if (!doctor) return NextResponse.json({ error: "Doctor profile not found" }, { status: 404 });
 
-    // Cascade delete handled by database schema
+
     await prisma.user.delete({ where: { id: user.id } });
 
     return NextResponse.json({ ok: true });

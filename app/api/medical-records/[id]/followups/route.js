@@ -16,7 +16,7 @@ export async function POST(request, { params }) {
     const record = await prisma.medicalRecord.findUnique({ where: { id } });
     if (!record) return NextResponse.json({ message: "Record not found" }, { status: 404 });
 
-    // Check if user is the patient or the doctor
+
     const doctor = user.role === "doctor" ? await prisma.doctor.findUnique({ where: { userId: user.id } }) : null;
     const isDoctor = doctor && record.doctorId === doctor.id;
     const isPatient = record.patientId === user.id;

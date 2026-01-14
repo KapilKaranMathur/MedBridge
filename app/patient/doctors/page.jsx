@@ -269,7 +269,7 @@ export default function DoctorsPage() {
                 key={doctor.id}
                 className="group bg-zinc-900 border-zinc-800/80 hover:border-emerald-500/30 transition-all duration-300 flex flex-col overflow-hidden relative"
               >
-                {/* Available Indicator */}
+
                 <div className="absolute top-4 right-4 flex items-center gap-1.5 px-2 py-1 bg-zinc-950/50 backdrop-blur rounded-full border border-zinc-800 text-[10px] font-medium text-emerald-400 z-10">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                   Available
@@ -375,7 +375,6 @@ export default function DoctorsPage() {
               </div>
 
               <div className="p-6 space-y-6">
-                {/* Doctor Summary in Modal */}
                 <div className="flex items-center gap-4 p-3 bg-zinc-900 rounded-lg border border-zinc-800">
                   <div className="h-10 w-10 rounded-lg bg-zinc-800 flex items-center justify-center font-bold text-zinc-400">
                     {selectedDoctor?.name.charAt(0)}

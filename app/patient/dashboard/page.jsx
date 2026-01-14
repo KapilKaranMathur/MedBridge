@@ -43,7 +43,7 @@ export default function PatientDashboard() {
         throw new Error(body.error || "Failed to cancel appointment");
       }
 
-      // Remove from local state
+
       setAppointments(prev => prev.filter(a => a.id !== appointmentId));
     } catch (err) {
       alert(err.message || "Error cancelling appointment");
@@ -52,7 +52,7 @@ export default function PatientDashboard() {
 
   return (
     <div className="min-h-screen bg-background pb-20 pt-20 md:pt-24 relative overflow-hidden">
-      {/* Background Effects */}
+
       <div className="fixed top-0 left-0 w-full h-[500px] bg-radial-gradient from-emerald-900/20 via-background to-background pointer-events-none -z-10" />
       
       <div className="max-w-7xl mx-auto p-6 space-y-8">
@@ -108,7 +108,7 @@ export default function PatientDashboard() {
               return (
                 <Card key={a.id} className="bg-white/5 border-white/10 hover:bg-white/[0.07] transition-all">
                   <CardContent className="p-6 flex flex-col md:flex-row gap-6 items-start md:items-center">
-                    {/* Date Widget */}
+
                     <div className="flex flex-col items-center justify-center w-16 h-16 rounded-lg bg-emerald-950/50 border border-emerald-500/20 text-emerald-400 shrink-0">
                       <span className="text-xs uppercase font-bold tracking-wider">{dateObj.toLocaleDateString('en-US', { month: 'short' })}</span>
                       <span className="text-xl font-bold text-white">{dateObj.getDate()}</span>

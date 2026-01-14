@@ -22,11 +22,6 @@ export default function RootLayout({ children }) {
         >
           <Header />
           <main className="min-h-screen">{children}</main>
-          <footer className="bg-muted/50 py-12">
-            <div className="container mx-auto px-4 text-center text-black-200">
-              <p>Made with 🧠 in Next.js at my desk 🪑</p>
-            </div>
-          </footer>
         </ThemeProvider>
       </body>
     </html>

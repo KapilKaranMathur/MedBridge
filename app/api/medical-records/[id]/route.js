@@ -33,7 +33,7 @@ export async function GET(request, { params }) {
       patientId: record.patientId
     });
 
-    // Allow access for doctor or patient
+
     let doctor = null;
     if (user.role === "doctor") {
       doctor = await prisma.doctor.findUnique({ where: { userId: user.id } });

@@ -27,7 +27,7 @@ import {
 } from "../components/ui/card";
 import MarqueeDemo from "../components/MarqueeDemo";
 
-// Fallback features in case the import is empty or fails during dev
+
 const DEMO_FEATURES = [
   {
     icon: <Calendar className="h-6 w-6 text-emerald-400" />,
